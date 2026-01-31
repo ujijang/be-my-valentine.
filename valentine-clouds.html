@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine Clouds</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to top, #fce4ec, #f8bbd0); /* soft pink sky */
+      position: relative;
+      font-family: sans-serif;
+    }
+
+    /* Clouds */
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: drift linear infinite;
+    }
+
+    @keyframes drift {
+      0% { transform: translateX(-200px); }
+      100% { transform: translateX(110vw); }
+    }
+
+    /* Heart shapes */
+    .heart {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #f28ca5; /* darker pink for visibility */
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #f28ca5;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -12px; left: 0; }
+    .heart::after { left: -12px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg) scale(1); opacity: 0.8; }
+      50% { transform: translateY(50vh) translateX(30px) rotate(45deg) scale(1.2); opacity: 0.7; }
+      100% { transform: translateY(-50px) translateX(-30px) rotate(45deg) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  // Create clouds
+  const cloudCount = 10;
+  for (let i = 0; i < cloudCount; i++) {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const size = 80 + Math.random() * 120;
+    cloud.style.width = size + 'px';
+    cloud.style.height = size * 0.6 + 'px';
+    cloud.style.top = Math.random() * window.innerHeight * 0.6 + 'px';
+    cloud.style.left = Math.random() * window.innerWidth + 'px';
+    cloud.style.animationDuration = (20 + Math.random() * 20) + 's';
+    document.body.appendChild(cloud);
+  }
+
+  // Create floating hearts
+  const heartCount = 100;
+  for (let i = 0; i < heartCount; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDelay = Math.random() * 5 + 's';
+    heart.style.animationDuration = 5 + Math.random() * 3 + 's';
+    document.body.appendChild(heart);
+  }
+</script>
+
+</body>
+</html>
