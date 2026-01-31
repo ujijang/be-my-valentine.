@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffc0cb;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 2.3rem;
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 140px;
+    }
+
+    button {
+      font-size: 1.3rem;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+      transition: 0.15s ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+    }
+
+    #no {
+      background-color: #adb5bd;
+      color: white;
+      left: 50%;
+      transform: translateX(20%);
+    }
+
+    .heart {
+      position: absolute;
+      pointer-events: none;
+      animation: float 3s linear forwards;
+    }
+
+    @keyframes float {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-220px) scale(1.8);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Aran, will you be my Valentine? 💘</h1>
+
+    <div class="buttons">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 🙃</button>
+    </div>
+  </div>
+
+  <script>
+    const noButton = document.getElementById('no');
+    const yesButton = document.getElementById('yes');
+
+    function moveNoButton() {
+      const padding = 120;
+      const x = Math.random() * (window.innerWidth - padding);
+      const y = Math.random() * (window.innerHeight - padding);
+
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
+
+      // Vibration on supported devices
+      if (navigator.vibrate) {
+        navigator.vibrate(60);
+      }
+    }
+
+    // Desktop
+    noButton.addEventListener('mouseover', moveNoButton);
+
+    // Mobile
+    noButton.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesButton.addEventListener('click', () => {
+      for (let i = 0; i < 45; i++) {
+        createHeart();
+      }
+    });
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+
+      const hearts = ['💖','💘','💗','💕','❤️'];
+      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.top = window.innerHeight + 'px';
+      heart.style.fontSize = Math.random() * 22 + 16 + 'px';
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
