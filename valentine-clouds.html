@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Clouds</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to top, #fce4ec, #f8bbd0);
+    position: relative;
+    font-family: 'Fredoka One', cursive;
+  }
+
+  /* Centered message */
+  h1 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 0 0 10px #fff6b3, 0 0 20px #fff6b3;
+    font-size: 3rem;
+    text-align: center;
+    z-index: 1000;
+  }
+
+  /* Fluffy clouds */
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.85;
+    animation: drift linear infinite;
+  }
+
+  @keyframes drift {
+    0% { transform: translateX(-200px); }
+    100% { transform: translateX(110vw); }
+  }
+
+  /* Floating shapes: hearts, stars, sparkles */
+  .floating {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.9; /* clearly visible */
+  }
+
+  /* Heart shape */
+  .heart {
+    background: #f28ca5;
+    transform: rotate(45deg);
+  }
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #f28ca5;
+    border-radius: 50%;
+  }
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: -10px; top: 0; }
+
+  /* Star shape */
+  .star {
+    background: #fff6b3;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  /* Sparkle / dot */
+  .sparkle {
+    background: #ffe4e1;
+    border-radius: 50%;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0.9; }
+    50% { transform: translateY(50vh) translateX(20px) rotate(15deg); opacity: 0.8; }
+    100% { transform: translateY(-50px) translateX(-20px) rotate(0deg); opacity: 0.9; }
+  }
+</style>
+</head>
+<body>
+
+<h1>good choice! took you a while…</h1>
+
+<script>
+  const bodyWidth = window.innerWidth;
+  const bodyHeight = window.innerHeight;
+
+  // Create fluffy clouds
+  const cloudCount = 8;
+  for (let i = 0; i < cloudCount; i++) {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const width = 100 + Math.random() * 120;
+    const height = width * 0.6;
+    cloud.style.width = width + 'px';
+    cloud.style.height = height + 'px';
+    cloud.style.top = Math.random() * bodyHeight * 0.6 + 'px';
+    cloud.style.left = Math.random() * bodyWidth + 'px';
+    cloud.style.animationDuration = (20 + Math.random() * 20) + 's';
+
+    // Fluffy circles
+    const circleCount = 3 + Math.floor(Math.random() * 3);
+    for (let j = 0; j < circleCount; j++) {
+      const extra = document.createElement('div');
+      extra.style.position = 'absolute';
+      extra.style.width = width * (0.5 + Math.random() * 0.5) + 'px';
+      extra.style.height = height * (0.5 + Math.random() * 0.5) + 'px';
+      extra.style.background = '#fff';
+      extra.style.borderRadius = '50%';
+      extra.style.left = Math.random() * width * 0.5 + 'px';
+      extra.style.top = Math.random() * height * 0.5 + 'px';
+      cloud.appendChild(extra);
+    }
+
+    document.body.appendChild(cloud);
+  }
+
+  // Create floating shapes
+  const symbols = ['heart', 'star', 'sparkle'];
+  const shapeCount = 80;
+  for (let i = 0; i < shapeCount; i++) {
+    const shapeType = symbols[Math.floor(Math.random() * symbols.length)];
+    const elem = document.createElement('div');
+    elem.className = 'floating ' + shapeType;
+    elem.style.left = Math.random() * bodyWidth + 'px';
+    elem.style.animationDelay = Math.random() * 5 + 's';
+    elem.style.animationDuration = 5 + Math.random() * 4 + 's';
+    document.body.appendChild(elem);
+  }
+</script>
+
+</body>
+</html>
