@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #f7c6cf, #f3d9df);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    overflow: hidden;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    color: #5a2a3c;
+    margin-bottom: 60px;
+    z-index: 100;
+  }
+
+  .buttons {
+    position: relative;
+    height: 160px;
+    width: 100%;
+  }
+
+  button {
+    font-size: 1.1rem;
+    padding: 14px 34px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    transition: transform 0.2s ease;
+    user-select: none;
+  }
+
+  #yes {
+    background-color: #c94a6a;
+    color: white;
+    left: 50%;
+    transform: translateX(-120%);
+  }
+
+  #no {
+    background-color: #e6b8c2;
+    color: #5a2a3c;
+    left: 50%;
+    transform: translateX(20%);
+  }
+
+  /* Floating shapes (hearts + stars) */
+  .floating {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.9;
+    z-index: 1;
+  }
+
+  /* Heart shape */
+  .heart {
+    background: #f28ca5;
+    transform: rotate(45deg);
+  }
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #f28ca5;
+    border-radius: 50%;
+  }
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: -10px; top: 0; }
+
+  /* Star shape */
+  .star {
+    background: #fff6b3;
+    clip-path: polygon(
+      50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+      79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+    );
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0.9; }
+    50% { transform: translateY(50vh) translateX(20px) rotate(15deg); opacity: 0.8; }
+    100% { transform: translateY(-50px) translateX(-20px) rotate(0deg); opacity: 0.9; }
+  }
+
+  /* Cute pink T-Rex */
+  .dino {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 80px;
+    z-index: 2;
+  }
+
+  .dino-body {
+    position: absolute;
+    width: 100px;
+    height: 60px;
+    background: #f28ca5;
+    border-radius: 50% 50% 40% 40%;
+    left: 20px;
+    bottom: 0;
+  }
+
+  .dino-head {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #f28ca5;
+    border-radius: 50%;
+    top: -20px;
+    left: 0;
+  }
+
+  .dino-eye {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    top: 10px;
+    left: 8px;
+  }
+
+  .dino-leg {
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    background: #f28ca5;
+    bottom: 0;
+    border-radius: 5px;
+  }
+
+  .dino-leg.left { left: 25px; }
+  .dino-leg.right { left: 60px; }
+
+  .dino-arm {
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: #f28ca5;
+    top: 20px;
+    border-radius: 4px;
+  }
+
+  .dino-arm.left { left: 35px; transform: rotate(-30deg);}
+  .dino-arm.right { left: 55px; transform: rotate(30deg); }
+
+  .dino-tail {
+    position: absolute;
+    width: 50px;
+    height: 15px;
+    background: #f28ca5;
+    border-radius: 50%;
+    left: 90px;
+    bottom: 10px;
+    transform: rotate(25deg);
+  }
+</style>
+</head>
+<body>
+
+<h1>angel, will you be my valentine?</h1>
+
+<div class="buttons">
+  <button id="yes">Yes</button>
+  <button id="no">No</button>
+</div>
+
+<!-- Pink T-Rex at bottom center -->
+<div class="dino">
+  <div class="dino-body"></div>
+  <div class="dino-head">
+    <div class="dino-eye"></div>
+  </div>
+  <div class="dino-leg left"></div>
+  <div class="dino-leg right"></div>
+  <div class="dino-arm left"></div>
+  <div class="dino-arm right"></div>
+  <div class="dino-tail"></div>
+</div>
+
+<script>
+  const noButton = document.getElementById('no');
+  const yesButton = document.getElementById('yes');
+  let noClickCount = 0;
+  const maxNoClicks = 5;
+
+  function moveNoButton() {
+    const padding = 140;
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
+
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+  }
+
+  // Cursor proximity (desktop)
+  document.addEventListener('mousemove', (e) => {
+    if (noClickCount >= maxNoClicks) return;
+    const rect = noButton.getBoundingClientRect();
+    const distance = Math.hypot(
+      e.clientX - (rect.left + rect.width / 2),
+      e.clientY - (rect.top + rect.height / 2)
+    );
+    if (distance < 100) moveNoButton();
+  });
+
+  // Finger proximity (mobile)
+  document.addEventListener('touchmove', (e) => {
+    if (noClickCount >= maxNoClicks) return;
+    const touch = e.touches[0];
+    const rect = noButton.getBoundingClientRect();
+    const distance = Math.hypot(
+      touch.clientX - (rect.left + rect.width / 2),
+      touch.clientY - (rect.top + rect.height / 2)
+    );
+    if (distance < 120) moveNoButton();
+  });
+
+  noButton.addEventListener('click', () => {
+    noClickCount++;
+    if (noClickCount >= maxNoClicks) {
+      alert("Oops! Tough luck");
+      noButton.style.display = "none";
+    }
+  });
+
+  yesButton.addEventListener('click', () => {
+    window.location.href = "valentine-clouds.html";
+  });
+
+  // Floating hearts and stars
+  const symbols = ['heart', 'star'];
+  const shapeCount = 60;
+  const bodyWidth = window.innerWidth;
+
+  for (let i = 0; i < shapeCount; i++) {
+    const shapeType = symbols[Math.floor(Math.random() * symbols.length)];
+    const elem = document.createElement('div');
+    elem.className = 'floating ' + shapeType;
+    elem.style.left = Math.random() * bodyWidth + 'px';
+    elem.style.animationDelay = Math.random() * 5 + 's';
+    elem.style.animationDuration = 5 + Math.random() * 4 + 's';
+    document.body.appendChild(elem);
+  }
+</script>
+
+</body>
+</html>
